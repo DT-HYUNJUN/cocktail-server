@@ -7,19 +7,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/updateUser.dto';
 
-const fakeUsers = [
-  {
-    id: 1,
-    username: 'park',
-    password: 'password',
-  },
-  {
-    id: 2,
-    username: 'kim',
-    password: 'password123',
-  },
-];
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -28,10 +15,11 @@ export class AuthService {
   ) {}
 
   async validateUser({ username, password }: AuthDto): Promise<any> {
-    const findUser = fakeUsers.find((user) => user.username === username); // DB로 바꾸기
+    const findUser = await this.userModel.findOne({ username }).exec();
     if (!findUser) return null;
-    if (password === findUser.password) {
-      const { password, ...user } = findUser;
+    const isPasswordValid = await bcrypt.compare(password, findUser.password);
+    if (isPasswordValid) {
+      const { password, ...user } = findUser.toObject();
       console.log('service', user);
       return this.jwtService.sign(user);
     }
