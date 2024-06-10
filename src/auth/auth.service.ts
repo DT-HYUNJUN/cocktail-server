@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { SignupDto } from './dto/signup.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,7 @@ export class AuthService {
     }
   }
 
-  async createUser(createUserDto: AuthDto) {
+  async createUser(createUserDto: SignupDto) {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     const newUser = new this.userModel({
       ...createUserDto,
@@ -48,5 +49,11 @@ export class AuthService {
 
   deleteUser(id: string) {
     return this.userModel.findByIdAndDelete(id);
+  }
+
+  async checkName(displayName: string) {
+    const findUser = await this.userModel.findOne({ displayName }).exec();
+    if (findUser) return true;
+    return false;
   }
 }

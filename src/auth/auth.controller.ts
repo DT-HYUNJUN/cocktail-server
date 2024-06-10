@@ -14,17 +14,17 @@ import { AuthService } from './auth.service';
 import { LocalGuard } from './guards/local.guard';
 import { Request } from 'express';
 import { JwtAuthGurad } from './guards/jwt.guard';
-import { AuthDto } from './dto/auth.dto';
 import mongoose from 'mongoose';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { SignupDto } from './dto/signup.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('login')
+  @Post('signin')
   @UseGuards(LocalGuard)
-  async login(@Req() req: Request) {
+  async signIn(@Req() req: Request) {
     return req.user;
   }
 
@@ -37,7 +37,7 @@ export class AuthController {
   }
 
   @Post('signup')
-  createUser(@Body() createUserDto: AuthDto) {
+  createUser(@Body() createUserDto: SignupDto) {
     console.log(createUserDto);
     return this.authService.createUser(createUserDto);
   }
@@ -75,5 +75,10 @@ export class AuthController {
     const deletedUser = await this.authService.deleteUser(id);
     if (!deletedUser) throw new HttpException('User Not Found', 404);
     return;
+  }
+
+  @Get('checkname/:name')
+  async checkName(@Param('name') displayName: string) {
+    return this.authService.checkName(displayName);
   }
 }
