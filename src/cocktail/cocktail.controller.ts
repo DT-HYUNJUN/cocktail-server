@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   FileTypeValidator,
   MaxFileSizeValidator,
@@ -8,11 +9,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileService } from './file.service';
+import { CocktailService } from './cocktail.service';
+import { CreateCocktailDto } from './dto/create-cocktail.dto';
 
-@Controller('file')
-export class FileController {
-  constructor(private readonly fileService: FileService) {}
+@Controller('cocktail')
+export class CocktailController {
+  constructor(private readonly cocktailService: CocktailService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
@@ -28,7 +30,13 @@ export class FileController {
       }),
     )
     file: Express.Multer.File,
+    @Body() createCocktailDto: CreateCocktailDto,
   ) {
-    await this.fileService.upload(file.originalname, file.buffer);
+    const iamgeUrl = await this.cocktailService.upload(
+      file.originalname,
+      file.buffer,
+    );
+    createCocktailDto.strDrinkThumb = iamgeUrl;
+    return this.cocktailService.create(createCocktailDto);
   }
 }

@@ -1,12 +1,17 @@
 import { Module } from '@nestjs/common';
-import { FileController } from './file.controller';
-import { FileService } from './file.service';
+import { CocktailController } from './cocktail.controller';
+import { CocktailService } from './cocktail.service';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Cocktail, CocktailSchema } from './schemas/cocktail.schema';
 
 @Module({
   imports: [
+    MongooseModule.forFeature([
+      { name: Cocktail.name, schema: CocktailSchema },
+    ]),
     ThrottlerModule.forRootAsync({
       useFactory: (configService: ConfigService) => [
         {
@@ -17,13 +22,13 @@ import { ConfigService } from '@nestjs/config';
       inject: [ConfigService],
     }),
   ],
-  controllers: [FileController],
+  controllers: [CocktailController],
   providers: [
-    FileService,
+    CocktailService,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
   ],
 })
-export class FileModule {}
+export class CocktailModule {}
