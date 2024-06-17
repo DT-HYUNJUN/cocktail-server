@@ -6,9 +6,6 @@ export type CocktailDocument = Cocktail & Document;
 @Schema()
 export class Cocktail {
   @Prop({ required: true })
-  idDrink: string;
-
-  @Prop({ required: true })
   strDrink: string;
 
   @Prop({ required: true })
