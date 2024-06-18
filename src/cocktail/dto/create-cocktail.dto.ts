@@ -3,8 +3,12 @@ export class CreateCocktailDto {
   readonly strCategory: string;
   readonly strAlcoholic: boolean;
   readonly strGlass: string;
-  readonly strInstructions: string;
+  readonly strDescription: string;
   strDrinkThumb: string;
-  readonly ingredients: { id: number; strIngredient: string }[];
-  readonly measures: { id: number; strMeasure: string }[];
+  readonly ingredients: {
+    id: number;
+    strIngredient: string;
+    strMeasure: string;
+  }[];
+  readonly instructions: { id: number; strInstruction: string }[];
 }

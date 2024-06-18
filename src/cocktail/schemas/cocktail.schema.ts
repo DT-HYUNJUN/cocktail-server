@@ -12,22 +12,26 @@ export class Cocktail {
   strCategory: string;
 
   @Prop({ required: true })
-  strAlcoholic: string;
+  strAlcoholic: boolean;
 
   @Prop({ required: true })
   strGlass: string;
 
   @Prop({ required: true })
-  strInstructions: string;
+  strDescription: string;
 
   @Prop()
   strDrinkThumb: string;
 
   @Prop({ required: true })
-  ingredients: { id: number; strIngredient: string }[];
+  ingredients: {
+    id: number;
+    strIngredient: string;
+    strMeasure: string;
+  }[];
 
   @Prop({ required: true })
-  measures: { id: number; strMeasure: string }[];
+  instructions: { id: number; strInstruction: string }[];
 }
 
 export const CocktailSchema = SchemaFactory.createForClass(Cocktail);
