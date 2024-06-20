@@ -35,4 +35,8 @@ export class CocktailService {
     const createdCocktail = new this.cocktailModel(createCocktailDto);
     return createdCocktail.save();
   }
+
+  async findAll(): Promise<Cocktail[]> {
+    return this.cocktailModel.find().exec();
+  }
 }

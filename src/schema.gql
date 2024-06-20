@@ -1,0 +1,55 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Cocktail {
+  strDrink: String!
+  strCategory: String!
+  strAlcoholic: Boolean!
+  strGlass: String!
+  strDescription: String!
+  strDrinkThumb: String
+  ingredients: [Ingredient!]!
+  instructions: [Instruction!]!
+}
+
+type Ingredient {
+  id: Int!
+  strIngredient: String!
+  strMeasure: String!
+}
+
+type Instruction {
+  id: Int!
+  strInstruction: String!
+}
+
+type Query {
+  cocktails: [Cocktail!]!
+}
+
+type Mutation {
+  createCocktail(createCocktailInput: CreateCocktailDto!): Cocktail!
+}
+
+input CreateCocktailDto {
+  strDrink: String!
+  strCategory: String!
+  strAlcoholic: Boolean!
+  strGlass: String!
+  strDescription: String!
+  strDrinkThumb: String
+  ingredients: [IngredientInput!]!
+  instructions: [InstructionInput!]!
+}
+
+input IngredientInput {
+  id: Int!
+  strIngredient: String!
+  strMeasure: String!
+}
+
+input InstructionInput {
+  id: Int!
+  strInstruction: String!
+}
